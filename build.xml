@@ -1,0 +1,44 @@
+<project name="ChatFX" default="compile" xmlns:fx="javafx:com.sun.javafx.tools.ant">
+
+	<property name="javafx.api" value="C:\Program Files\Java\jre7\lib\jfxrt.jar" />
+	<property name="javafx.antTasks" value="C:/Program Files/Java/jdk1.7.0_06\lib\ant-javafx.jar" />
+
+	<taskdef resource="com/sun/javafx/tools/ant/antlib.xml"      
+	        uri="javafx:com.sun.javafx.tools.ant" 
+	        classpath="${javafx.antTasks}"/>
+
+	<target name="clean">
+	    <delete dir="build" />	    	     
+		<mkdir dir="build"/>
+	</target>
+	
+
+	<target name="compile">
+		<javac srcdir="src" destdir="build" source="1.7">
+			<classpath>
+				<pathelement location="${javafx.api}"/>
+			</classpath>
+		</javac>
+		<copy todir="build">
+			<fileset dir="src" excludes="**/*.java" />
+
+		</copy>
+	</target>
+
+
+
+
+	<target name="package" depends="compile">
+
+		<fx:jar destfile="dist/ChatClientFx.jar">
+			<fx:application mainClass="ee.tut.fundamentals.chat.ChatClientFx"/>
+			<fileset dir="build/">
+				<include name="**"/>
+			</fileset>
+		</fx:jar>
+	</target>
+
+
+
+
+</project>
