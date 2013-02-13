@@ -1,12 +1,15 @@
 package ee.tut.fundamentals.chat;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -64,16 +67,29 @@ public class ChatClientFx extends Application {
       httpPort = Integer.valueOf(params.get("httpPort"));
     }
 
-    ChatClient client = new ChatClient(user, host, serverPort, httpPort);
+    try {
+      ChatClient client = new ChatClient(user, host, serverPort, httpPort);
 
-
-    //Configure the controller to use the ChatClient
-    controller.setChatClient(client);
-    client.setMessageListener(controller);
-
+      //Configure the controller to use the ChatClient
+      controller.setChatClient(client);
+      client.setMessageListener(controller);
+    }
+    catch (Exception e) {
+      stage.setScene(buildErrorScene());
+    }
 
     //show the GUI
     stage.show();
+  }
+
+  public Scene buildErrorScene() throws IOException {
+    URL url = getClass().getClassLoader().getResource("ee/tut/fundamentals/chat/Err.fxml");
+    if (url == null) {
+      System.out.println("Unable to read fxml");
+      System.exit(-1);
+    }
+    Parent err = FXMLLoader.load(url);
+    return new Scene(err);
   }
 
   public void usage() {

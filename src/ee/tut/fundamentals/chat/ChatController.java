@@ -42,7 +42,7 @@ public class ChatController implements Initializable, MessageListener {
         chatClient.postMessage(text);
       }
       catch (IOException e) {
-        e.printStackTrace();
+        System.out.println("ERROR: " + e.getMessage());
       }
 
       //clear the text box

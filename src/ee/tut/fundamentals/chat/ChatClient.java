@@ -22,10 +22,10 @@ import java.net.UnknownHostException;
 public class ChatClient {
 
 
-  private URL out;
-  private String name;
+  private final URL out;
+  private final String name;
+  private final IncomingMessageListener listener;
 
-  private IncomingMessageListener listener;
   private volatile MessageListener handler;
 
   public ChatClient (String name, String hostname, int serverPort, int httpPort) throws UnknownHostException, IOException {
@@ -82,7 +82,7 @@ public class ChatClient {
 
   private class IncomingMessageListener implements Runnable {
 
-    private BufferedReader in;
+    private final BufferedReader in;
 
     public IncomingMessageListener (String hostname, int port) throws UnknownHostException, IOException {
       System.out.println("Connecting to " + hostname + ":" + port);
