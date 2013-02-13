@@ -1,6 +1,8 @@
 syntax: regexp
 ^bin/
 syntax: regexp
+^build/
+syntax: regexp
 ^.classpath$
 syntax: regexp
 ^.project$

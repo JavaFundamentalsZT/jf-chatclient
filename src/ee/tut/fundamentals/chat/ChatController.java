@@ -38,12 +38,14 @@ public class ChatController implements Initializable, MessageListener {
       }
 
       try {
-        //send the value of the text box to the server
+        //post the value of the text box
         chatClient.postMessage(text);
       }
       catch (IOException e) {
         e.printStackTrace();
       }
+
+      //clear the text box
       say.setText("");
   }
 
@@ -53,14 +55,7 @@ public class ChatController implements Initializable, MessageListener {
    */
   @Override
   public void onMessage(String msg) {
-    String chatText = chat.getText();
-    if (chatText.length()==0) {
-      chat.setText(msg);
-    }
-    else {
-      chat.setText(chatText + "\n" + msg);
-    }
-
+    chat.appendText(msg + "\n");
   }
 
 

@@ -55,9 +55,10 @@ public class ChatClient {
 
     OutputStreamWriter out=null;
     try {
-      out = new OutputStreamWriter(conn.getOutputStream());
+      out = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
       out.write(msg);
       out.flush();
+      System.out.println("Message sent: " + conn.getResponseMessage());
     }
     finally {
       if (out != null) {
@@ -86,7 +87,7 @@ public class ChatClient {
     public IncomingMessageListener (String hostname, int port) throws UnknownHostException, IOException {
       System.out.println("Connecting to " + hostname + ":" + port);
       Socket sock = new Socket(hostname, port);
-      in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+      in = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
       System.out.println("Connected to server");
 
       //send over the name
