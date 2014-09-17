@@ -2,10 +2,11 @@ package ee.tut.fundamentals.chat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-
 import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -86,15 +87,19 @@ public class ChatClient {
 
     public IncomingMessageListener (String hostname, int port) throws UnknownHostException, IOException {
       System.out.println("Connecting to " + hostname + ":" + port);
-      Socket sock = new Socket(hostname, port);
-      in = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
-      System.out.println("Connected to server");
+      try (
+          Socket sock = new Socket(hostname, port);
+          InputStream sis = sock.getInputStream();
+          OutputStream sos = sock.getOutputStream();
+        ) {
+        in = new BufferedReader(new InputStreamReader(sis, "UTF-8"));
+        System.out.println("Connected to server");
 
-      //send over the name
-      OutputStreamWriter out = new OutputStreamWriter(sock.getOutputStream());
-      out.write(name + "\n");
-      out.flush();
-
+        //send over the name
+        OutputStreamWriter out = new OutputStreamWriter(sos);
+        out.write(name + "\n");
+        out.flush();
+      }
     }
 
     /**
