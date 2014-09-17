@@ -1,7 +1,5 @@
 syntax: regexp
-^bin/
-syntax: regexp
-^build/
+^target/
 syntax: regexp
 ^.classpath$
 syntax: regexp
