@@ -1,14 +1,17 @@
 Java Fundamentals - Chat client
 ===========
 
-This is a fully functional chat client, needed for "Java Networking" homework on "Java Fundamentals" course. 
+This is a chat client, useful for "Java Networking" homework on "Java Fundamentals" course. 
+
+If you do not feel like building it from the source, you can also **download** it from
+[here](https://dl.dropboxusercontent.com/u/44963211/JavaFundamentals/ChatClientFx.jar).
 
 Requirements
 ---------------
-* <strong>Java 8</strong> (the GUI is implemented with JavaFX)
-* <strong>Maven 3</strong> (or newer), required by [JavaFX Maven plugin](http://zenjava.com/javax/maven/)).
+* **Java 8** (the GUI is implemented with JavaFX)
+* **Maven 3** (or newer) -- needed only for building, required by [JavaFX Maven plugin](http://zenjava.com/javax/maven/)).
 
-Getting Started
+Building
 ---------------
 To build it, execute:
 
@@ -16,14 +19,19 @@ To build it, execute:
 mvn clean package
 ```
 
-It produces a single executable JAR file (target/ChatClientFx.jar) that can be executed via
+It produces a single executable JAR file (target/ChatClientFx.jar).
+
+Running
+---------------
+
+To run it, use the "java -jar" command, like this:
 
 ```shell
 java -jar target/ChatClientFx.jar
 ```
 
-It prints out usage instructions:
+Usage instructions:
 
-<pre>
+```
 Usage: java -jar ChatClientFx.jar --name=yourName --host=hostname [--serverPort=number] [--httpPort=number]
-</pre>
+```
