@@ -7,7 +7,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <url>https://bitbucket.org/zeroturnaround/jf_chatclient</url>
+  <url>https://github.com/zeroturnaround/jf-chatclient</url>
 
   <organization>
     <name>ZeroTurnaround</name>
@@ -60,4 +60,5 @@
       </plugin>
     </plugins>
   </build>
+
 </project>
