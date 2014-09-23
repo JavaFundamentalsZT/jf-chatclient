@@ -8,7 +8,9 @@ If you do not feel like building it from the source, you can also **download** i
 
 Requirements
 ---------------
-* **Java 8** (the GUI is implemented with JavaFX)
+* **Java 8 update 20 (1.8.0_20)** (the GUI is implemented with JavaFX).
+In case you are using older version of Java 8 and getting errors while building, you can either
+update your Java or try to use JavaFX Maven plugin version 2.0 (change it in pom.xml).
 * **Maven 3** (or newer) -- needed only for building, required by [JavaFX Maven plugin](http://zenjava.com/javax/maven/)).
 
 Building
