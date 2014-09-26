@@ -83,47 +83,57 @@ public class ChatClient {
 
   private class IncomingMessageListener implements Runnable {
 
-    private final BufferedReader in;
+    private BufferedReader in;
+    private String hostname;
+    private int port;
 
-    public IncomingMessageListener (String hostname, int port) throws UnknownHostException, IOException {
-      System.out.println("Connecting to " + hostname + ":" + port);
-      try (
-          Socket sock = new Socket(hostname, port);
-          InputStream sis = sock.getInputStream();
-          OutputStream sos = sock.getOutputStream();
-        ) {
-        in = new BufferedReader(new InputStreamReader(sis, "UTF-8"));
-        System.out.println("Connected to server");
-
-        //send over the name
-        OutputStreamWriter out = new OutputStreamWriter(sos);
-        out.write(name + "\n");
-        out.flush();
-      }
+    public IncomingMessageListener (String hostname, int port) throws IOException {
+      this.hostname = hostname;
+      this.port = port;
     }
 
     /**
      * Main loop that listens for incoming IM's and notifies the listener, if present
      */
     public void run() {
+      System.out.println("Connecting to " + hostname + ":" + port);
+      try (
+          Socket sock = new Socket(hostname, port);
+          InputStream sis = sock.getInputStream();
+          OutputStream sos = sock.getOutputStream();
+      ) {
+        in = new BufferedReader(new InputStreamReader(sis, "UTF-8"));
+        System.out.println("Connected to server");
 
-      try {
+        //send over the name
+        sendServerName(sos);
         while (true) {
-          String line = in.readLine();
-          if (line == null) {
-            return;
-          }
-          System.out.println("Received line:" + line);
-
-          if (handler != null) {
-            handler.onMessage(line);
-          }
+          if (listenForServerMessages()) return;
         }
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         e.printStackTrace();
       }
 
+    }
+
+    private boolean listenForServerMessages() throws IOException {
+      System.out.println("Waiting for readline");
+      String line = in.readLine();
+      if (line == null) {
+        return true;
+      }
+      System.out.println("Received line:" + line);
+
+      if (handler != null) {
+        handler.onMessage(line);
+      }
+      return false;
+    }
+
+    private void sendServerName(OutputStream sos) throws IOException {
+      OutputStreamWriter out = new OutputStreamWriter(sos);
+      out.write(name + "\n");
+      out.flush();
     }
 
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -55,7 +56,12 @@ public class ChatController implements Initializable, MessageListener {
    */
   @Override
   public void onMessage(String msg) {
-    chat.appendText(msg + "\n");
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        chat.appendText(msg + "\n");
+      }
+    });
   }
 
 
