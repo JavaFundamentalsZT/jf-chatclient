@@ -1,6 +1,5 @@
 package ee.tut.fundamentals.chat;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -42,7 +41,7 @@ public class ChatController implements Initializable, MessageListener {
         //post the value of the text box
         chatClient.postMessage(text);
       }
-      catch (IOException e) {
+      catch (Exception e) {
         System.out.println("ERROR: " + e.getMessage());
       }
 
