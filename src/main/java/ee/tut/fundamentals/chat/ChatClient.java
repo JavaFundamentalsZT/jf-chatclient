@@ -71,6 +71,7 @@ public class ChatClient implements Closeable {
     try {
       HttpURLConnection conn = (HttpURLConnection) this.postUrl.openConnection();
       conn.setRequestMethod("POST");
+      conn.setRequestProperty("Content-Type", "text/plain; charset=utf-8");
       conn.setRequestProperty("author", name);
       conn.setDoOutput(true);
 
