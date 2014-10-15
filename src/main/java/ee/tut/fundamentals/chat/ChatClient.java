@@ -120,6 +120,7 @@ public class ChatClient implements Closeable {
     private volatile boolean isClosing = false;
     private volatile Socket sock;
 
+    private String previousMessage;
     private volatile String waitForStr;
     private volatile CountDownLatch waitForLatch;
 
@@ -136,6 +137,9 @@ public class ChatClient implements Closeable {
     }
 
     public void waitFor(String waitFor) {
+      if (previousMessageMatches(waitFor)) {
+        return;
+      }
       this.waitForStr = waitFor;
       CountDownLatch latch = new CountDownLatch(1);
       this.waitForLatch = latch;
@@ -145,6 +149,16 @@ public class ChatClient implements Closeable {
       catch (InterruptedException e) {
         System.out.println("interrupted while waiting for: " + waitFor);
       }
+    }
+
+    private synchronized boolean previousMessageMatches(String waitFor) {
+      String previousMessage = this.previousMessage;
+      if (previousMessage != null && waitFor.equals(previousMessage)) {
+        //clear the previous message field, so we do not use the same message twice
+        this.previousMessage = null;
+        return true;
+      }
+      return false;
     }
 
     @Override
@@ -231,6 +245,7 @@ public class ChatClient implements Closeable {
     }
 
     private void onMessage(String msg) {
+      setPreviousMessage(msg);
       listener.onMessage(msg);
       CountDownLatch latch = this.waitForLatch;
       if (latch != null && msg.trim().equals(this.waitForStr)) {
@@ -238,6 +253,10 @@ public class ChatClient implements Closeable {
         this.waitForLatch = null;
         this.waitForStr = null;
       }
+    }
+
+    private synchronized void setPreviousMessage(String msg) {
+      this.previousMessage = msg;
     }
 
     private void sendServerName(OutputStream sos) throws IOException {
