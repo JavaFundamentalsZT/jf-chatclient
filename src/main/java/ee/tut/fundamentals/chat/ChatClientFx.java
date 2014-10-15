@@ -66,7 +66,7 @@ public class ChatClientFx extends Application {
     try (
         ChatClient client = setupChatClient(params);
         BufferedReader reader = new BufferedReader(new InputStreamReader(getInputStream(params), "UTF-8"));
-        PrintStream writer = new PrintStream(getOutputStream(params), false, "UTF-8");
+        PrintStream writer = new PrintStream(getOutputStream(params), true, "UTF-8");
       ) {
       
       client.setMessageListener(msg -> writer.println(msg));
